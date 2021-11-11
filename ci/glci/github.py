@@ -24,7 +24,7 @@ def post_github_status(
     repo = github_api.repository(owner='gardenlinux', repository='gardenlinux')
     repo.create_status(
         sha=committish,
-        state=str(state),
+        state=state.value,
         target_url=target_url,
         description=description,
         context=context,
