@@ -7,6 +7,7 @@ import git
 import ccc.github
 import distutils.util
 import gitutil
+import glci.github
 
 
 def apply_patch(
@@ -67,6 +68,18 @@ def prepare_home_dir():
         os.makedirs(os.path.abspath(home_dir), exist_ok=True)
 
 
+def update_status(
+    github_cfg,
+    committish: str,
+):
+    glci.github.post_github_status(
+        github_cfg=github_cfg,
+        committish=committish,
+        state=glci.github.GitHubStatus.PENDING,
+        description='Pipeline run started',
+    )
+
+
 def clone_and_copy(
     giturl: str,
     committish: str,
@@ -79,6 +92,12 @@ def clone_and_copy(
         github_cfg = ccc.github.github_cfg_for_hostname(
           repo_url.hostname,
         )
+
+        update_status(
+            github_cfg=github_cfg,
+            committish=committish,
+        )
+
         commit_msg, commit_hash = clone_and_checkout_with_technical_user(
             github_cfg=github_cfg,
             committish=committish,
