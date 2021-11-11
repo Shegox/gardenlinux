@@ -1,7 +1,6 @@
 import typing
 import params
 import steps
-from steps.clone_repo_step import update_status
 import tkn.model
 
 NamedParam = tkn.model.NamedParam
